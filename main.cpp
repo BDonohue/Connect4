@@ -20,13 +20,17 @@ main(){
 			board[i][j] = 0; //j+i*COLUMN;
 		}
 	}
-
 	string inputStr;
 	int inputNum;
 	int player = 1;
 	while(!checkWin(board)){
 		printBoard(board);
-		cout << "choose a position" << endl;
+		cout << "Choose a position.  Player ";
+		if(player == 1){
+			cout << "X" << endl;
+		} else {
+			cout << "0" << endl;
+		}
 		cin >> inputStr;
 		if(inputStr == "quit"){
 			break;
@@ -55,13 +59,13 @@ main(){
 			}
 		}
 	}
-	if(player == 1){
-		player = -1;
-	} else {
-		player = 1;
-	}
 	printBoard(board);
-	cout << "We have a winner: " << player << endl;
+	cout << "We have a winner: " ;
+	if(player == 1){
+		cout << "X" << endl;
+	} else {
+		cout << "0" << endl;
+	}
 	return 0;
 }
 
@@ -95,11 +99,13 @@ bool checkWin(int (&board)[ROW][COLUMN]){
 			//up
 			if(j > 2){
 				countA = player;
-				countA = countA * board[j-1][i] * board[j-2][i] * board[j-3][i];
+				countA = countA + board[j-1][i] + board[j-2][i] + board[j-3][i];
 				if(countA == countB){
+					/*
 					cout << j+1 << " " << i+1 << " " << player << " " << countA << " " << countB << endl;
 					cout << board[j][i] << board[j-1][i] << board[j-2][i] << board[j-3][i] << endl;
 					cout << "up" << endl;
+					*/
 					return true;
 				}
 			}
@@ -110,33 +116,39 @@ bool checkWin(int (&board)[ROW][COLUMN]){
 			//right
 			if(1){
 				countA = player;
-				countA = countA * board[j][i+1] * board[j][i+2] * board[j][i+3];
+				countA = countA + board[j][i+1] + board[j][i+2] + board[j][i+3];
 				if(countA == countB){
+					/*
 					cout << j+1 << " " << i+1 << " " << player << " " << countA << " " << countB << endl;
 					cout << board[j][i] << board[j][i+1] << board[j][i+2] << board[j][i+3] << endl;
 					cout << "right" << endl;
+					*/
 					return true;
 				}
 			}
 			//up and right
 			if(j > 2){
 				countA = player;
-				countA = countA * board[j-1][i+1] * board[j-2][i+2] * board[j-3][i+3];
+				countA = countA + board[j-1][i+1] + board[j-2][i+2] + board[j-3][i+3];
 				if(countA == countB){
+					/*
 					cout << j+1 << " " << i+1 << " " << player << " " << countA << " " << countB << endl;
 					cout << board[j][i] << board[j-1][i+1] << board[j=2][i+2] << board[j-3][i+3] << endl;
 					cout << "up right" << endl;
+					*/
 					return true;
 				}
 			}
 			//down and right
 			if(j < ROW - 3){
 				countA = player;
-				countA = countA * board[j+1][i+1] * board[j+2][i+2] * board[j+3][i+3];
+				countA = countA + board[j+1][i+1] + board[j+2][i+2] + board[j+3][i+3];
 				if(countA == countB){
+					/*
 					cout << j+1 << " " << i+1 << " " << player << " " << countA << " " << countB << endl;
 					cout << board[j][i] << board[j+1][i+1] << board[j+2][i+2] << board[j+3][i+3] << endl;
 					cout << "down right" << endl;
+					*/
 					return true;
 				}
 			}
