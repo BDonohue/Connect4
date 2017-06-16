@@ -60,13 +60,15 @@ main(){
 	} else {
 		player = 1;
 	}
+	printBoard(board);
 	cout << "We have a winner: " << player << endl;
 	return 0;
 }
 
 void printBoard(int (&board)[ROW][COLUMN]){
-	cout << "1 2 3 4 5 6 7" << endl;
+	cout << "  1 2 3 4 5 6 7" << endl;
 	for(int i = 0; i < ROW; i++){
+		cout << i+1 << " ";
 		for(int j = 0; j < COLUMN; j++){
 			switch(board[i][j]){
 				case 0: cout << "_ ";
@@ -82,41 +84,50 @@ void printBoard(int (&board)[ROW][COLUMN]){
 }
 
 bool checkWin(int (&board)[ROW][COLUMN]){
-	int player = 0;
+	int player, countA, countB;
 	for(int i = 0; i < COLUMN; i++){
 		for(int j = ROW - 1; j > -1; j--){
-			cout << i << " " << j << endl;
-			if(board[i][j] == 0){
+			if(board[j][i] == 0){
 				break;
 			}
-			player = board[i][j];
-			//straight up
-			for(int k = 1; k < 4; k++){
-				if(board[i][j+k] != player){
-					break;
+			cout << j+1 << " " << i+1 << endl;
+			player = board[j][i];
+			countB = player * player * player * player;
+			//up
+			if(j > 2){
+				countA = player;
+				countA = countA * board[j-1][i] * board[j-2][i] * board[j-3][i];
+				if(countA == countB){
+					return true;
 				}
-				return true;
 			}
-			//bottom left to top right
-			for(int k = 1; k < 4; k++){
-				if(board[i+k][j+k] != player){
-					break;
-				}
-				return true;
+			//condition for next 3
+			if(i > COLUMN - 4){
+				break;
 			}
-			//straight right
-			for(int k = 1; k < 4; k++){
-				if(board[i+k][j] != player){
-					break;
+			//right
+			if(1){
+				countA = player;
+				countA = countA * board[j][i+1] * board[j][i+2] * board[j][i+3];
+				if(countA == countB){
+					return true;
 				}
-				return true;
 			}
-			//top left to bottom right
-			for(int k = 1; k < 4; k++){
-				if(board[i+k][j-k] != player){
-					break;
+			//up and right
+			if(j > 2){
+				countA = player;
+				countA = countA * board[j-1][i+1] * board[j-2][i+1] * board[j-3][i+1];
+				if(countA == countB){
+					return true;
 				}
-				return true;
+			}
+			//down and right
+			if(j < ROW - 3){
+				countA = player;
+				countA = countA * board[j+1][i+1] * board[j+2][i+1] * board[j+3][i+1];
+				if(countA == countB){
+					return true;
+				}
 			}
 		}
 	}
