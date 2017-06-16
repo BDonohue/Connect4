@@ -10,7 +10,7 @@ bool checkWin(int (&board)[ROW][COLUMN]);
 int updateBoard(int (&board)[ROW][COLUMN], int rowPos, int player);
 //Empty = 0
 //Red = player 1
-//Black = player 2
+//Black = player -1
 
 main(){
 	//initialize board
@@ -49,14 +49,14 @@ main(){
 			cout << "That column is full" << endl;
 		} else {
 			if(player == 1){
-				player = 2;
+				player = -1;
 			} else {
 				player = 1;
 			}
 		}
 	}
 	if(player == 1){
-		player = 2;
+		player = -1;
 	} else {
 		player = 1;
 	}
@@ -73,9 +73,9 @@ void printBoard(int (&board)[ROW][COLUMN]){
 			switch(board[i][j]){
 				case 0: cout << "_ ";
 					break;
-				case 1: cout << "B ";
+				case 1: cout << "0 ";
 					break;
-				case 2: cout << "W ";
+				case -1: cout << "X ";
 					break;
 			}
 		}
@@ -90,14 +90,16 @@ bool checkWin(int (&board)[ROW][COLUMN]){
 			if(board[j][i] == 0){
 				break;
 			}
-			cout << j+1 << " " << i+1 << endl;
 			player = board[j][i];
-			countB = player * player * player * player;
+			countB = player * 4;
 			//up
 			if(j > 2){
 				countA = player;
 				countA = countA * board[j-1][i] * board[j-2][i] * board[j-3][i];
 				if(countA == countB){
+					cout << j+1 << " " << i+1 << " " << player << " " << countA << " " << countB << endl;
+					cout << board[j][i] << board[j-1][i] << board[j-2][i] << board[j-3][i] << endl;
+					cout << "up" << endl;
 					return true;
 				}
 			}
@@ -110,22 +112,31 @@ bool checkWin(int (&board)[ROW][COLUMN]){
 				countA = player;
 				countA = countA * board[j][i+1] * board[j][i+2] * board[j][i+3];
 				if(countA == countB){
+					cout << j+1 << " " << i+1 << " " << player << " " << countA << " " << countB << endl;
+					cout << board[j][i] << board[j][i+1] << board[j][i+2] << board[j][i+3] << endl;
+					cout << "right" << endl;
 					return true;
 				}
 			}
 			//up and right
 			if(j > 2){
 				countA = player;
-				countA = countA * board[j-1][i+1] * board[j-2][i+1] * board[j-3][i+1];
+				countA = countA * board[j-1][i+1] * board[j-2][i+2] * board[j-3][i+3];
 				if(countA == countB){
+					cout << j+1 << " " << i+1 << " " << player << " " << countA << " " << countB << endl;
+					cout << board[j][i] << board[j-1][i+1] << board[j=2][i+2] << board[j-3][i+3] << endl;
+					cout << "up right" << endl;
 					return true;
 				}
 			}
 			//down and right
 			if(j < ROW - 3){
 				countA = player;
-				countA = countA * board[j+1][i+1] * board[j+2][i+1] * board[j+3][i+1];
+				countA = countA * board[j+1][i+1] * board[j+2][i+2] * board[j+3][i+3];
 				if(countA == countB){
+					cout << j+1 << " " << i+1 << " " << player << " " << countA << " " << countB << endl;
+					cout << board[j][i] << board[j+1][i+1] << board[j+2][i+2] << board[j+3][i+3] << endl;
+					cout << "down right" << endl;
 					return true;
 				}
 			}
