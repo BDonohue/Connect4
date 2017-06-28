@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <stdexcept>  
+#include "ComputerPlayer.h"
 #define ROW 6
 #define COLUMN 7
 using namespace std;
@@ -23,27 +24,33 @@ main(){
 	string inputStr;
 	int inputNum;
 	int player = 1;
+	ComputerPlayer computer(-1);
+
 	while(!checkWin(board)){
 		printBoard(board);
+
 		cout << "Choose a position.  Player ";
 		if(player == 1){
 			cout << "X" << endl;
+			cin >> inputStr;
+			if(inputStr == "quit"){
+				break;
+			}
+			//check if input is valid
+			try{
+				inputNum = stoi(inputStr);
+			}
+			catch(const invalid_argument& ia){
+				inputNum = -1;
+				cout << "Input just numbers please" << endl;
+				continue;
+			}
 		} else {
 			cout << "0" << endl;
+			inputNum = computer.choosePosition(board);
 		}
-		cin >> inputStr;
-		if(inputStr == "quit"){
-			break;
-		}
-		//check if input is valid
-		try{
-			inputNum = stoi(inputStr);
-		}
-		catch(const invalid_argument& ia){
-			inputNum = -1;
-			cout << "Input just numbers please" << endl;
-			continue;
-		}
+		
+		
 		if(inputNum < 1 || inputNum > 7){
 			cout << "Enter a real option" << endl;
 			continue;
@@ -77,9 +84,9 @@ void printBoard(int (&board)[ROW][COLUMN]){
 			switch(board[i][j]){
 				case 0: cout << "_ ";
 					break;
-				case 1: cout << "0 ";
+				case 1: cout << "X ";
 					break;
-				case -1: cout << "X ";
+				case -1: cout << "0 ";
 					break;
 			}
 		}
